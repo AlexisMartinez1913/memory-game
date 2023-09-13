@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Memory Game</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center my-3">Memory Game</h1>
+            </div>
+            <div class="col-12">
+                <ul class="nav nav-pills nav-justified my-3">
+                    <li class="nav-item">
+                        <span >Player:  <span class="player-1">Player 1</span> </span>
+                    </li>
+                    <li class="nav-item">
+                        <span >Attempts:  <span class="intentos">0</span> </span>
+                    </li>
+                    <li class="nav-item">
+                        <span >Hits:  <span class="aciertos">0</span> </span>
+                    </li>
+                    <li class="nav-item">
+                        <span >Time:  <span class="tiempo">0</span> </span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="boton-iniciar btn btn-success">Start</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-secondary my-3">Game Board</h1>
+                <hr>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-6">
+                        <!--Imagenes-->
+                        <div class="tablero row">
+                        
+
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+
+                        <!--Record juego-->
+                        <table class="table estatisticas">
+                            <thead>
+                                <th>Position</th>
+                                <th>Player</th>
+                                <th>Game Time</th>
+                                <th>Total Attempts</th>
+                            </thead>
+                            <tbody>
+                                <!--Datos del jugador-->
+                            </tbody>
+                        </table>
+                    
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/funciones.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
