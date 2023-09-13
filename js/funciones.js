@@ -5,33 +5,17 @@ let nameImg = [];
 let posImg = [];
 let attempts = 0;
 let successes = 0;
-let time = 20;
+let time = 60;
+let timeT;
 let showSuccesses = d.querySelector(".aciertos");
 let showAttempts = d.querySelector(".intentos");
 let showTime = d.querySelector(".tiempo");
 let btnStart = d.querySelector('.boton-iniciar');
+let showLevel = d.querySelector('.nivel');
+let gameActive = false;
+let level = 1;
+let sound = new Audio("./sonidos/gameover.mp3");
 
-
-showTime.textContent = time;
-
-btnStart.addEventListener("click", function(){
-    
-    let timeT = setInterval(function(){
-        time--;
-        showTime.textContent = time;
-        if(time == 10){
-            showTime.setAttribute("style", "color:red; font-size:30px");
-        }else if(time==0){
-            
-            clearInterval(timeT);
-            alert("You Lose! 😒😒😒😒 You didn't guess everything");
-            location.reload();
-        }
-    }, 1000)
-    addImages();
-
-});
-//iniciar jeugo setTime
 
 let images = [
     {
@@ -84,6 +68,48 @@ let images = [
     }
     
 ];
+//imagenes en diferente posicion
+images.sort(()=>Math.random() -0.5);
+
+
+
+showTime.textContent = time;
+btnStart.addEventListener("click", function(){
+    if(gameActive === false && level===1){
+        gameActive = true;
+        addImages();
+        timeGame();
+    }else if(gameActive === false && level ===2){
+        gameActive = true;
+        addImages();
+        timeGame();
+    }else if(gameActive === false && level ===3){
+        gameActive = true;
+        addImages();
+        timeGame();
+    }
+    showLevel.textContent = level;
+    
+});
+
+//iniciar juego setInterval
+function timeGame(){
+        timeT = setInterval(function(){
+        time--;
+        showTime.textContent = time;
+        if(time === 10){
+            showTime.setAttribute("style", "color:red; font-size:20px");
+        }else if(time===0){
+            
+            clearInterval(timeT);
+            alert("You Lose! 😒😒😒😒 You didn't guess everything");
+            location.reload();
+        }
+    }, 1000)
+
+}
+
+
 
 let board = d.querySelector(".tablero");
 
@@ -131,7 +157,6 @@ function compareImages(){
             totalImg[posImg[1]].setAttribute("src", "./img/acierto.jpg");
             totalImg[posImg[0]].removeEventListener("click", showImages);
             totalImg[posImg[1]].removeEventListener("click", showImages);
-            alert('Excellent. God Job 😎👌😎');
             successes++;
             showSuccesses.textContent = successes;
 
@@ -140,17 +165,67 @@ function compareImages(){
             totalImg[posImg[0]].setAttribute("src", "./img/ocultar.png");
             attempts++;
             showAttempts.textContent = attempts;
+            sound.play();
             
         }
         
     }else{
         totalImg[posImg[0]].setAttribute("src", "./img/ocultar.png");
         totalImg[posImg[1]].setAttribute("src", "./img/ocultar.png");
-        alert('You Lose. Try Again ✖️😒');
         attempts++;
         showAttempts.textContent = attempts;
     }
     nameImg = []; //arrays vacios
     posImg = [];
+
+    //logica para pasar de nivel
+
+    if(successes=== 6 && level === 1){
+        alert('🙌👍👌 Excellent you advance of level');
+        successes = 0;
+        attempts = 0;
+        time = 50;
+        clearInterval(timeT);
+        level++;
+        showLevel.textContent = level;
+        showAttempts.textContent = attempts;
+        showSuccesses.textContent = successes;
+        showTime.textContent = time;
+        deleteImages();
+        gameActive = false;
+    }else if(attempts === 6 && level===2){
+        alert('🙌👍👌 Excellent you advance all levels');
+        successes = 0;
+        attempts = 0;
+        time = 40;
+        clearInterval(timeT);
+        level++;
+        showLevel.textContent = level;
+        showAttempts.textContent = attempts;
+        showSuccesses.textContent = successes;
+        showTime.textContent = time;
+        deleteImages();
+        gameActive = false;
+    }else if(attempts===6 && level===3){
+        alert('🙌👍👌 Excellent you advance all levels');
+        successes = 0;
+        attempts = 0;
+        time = 45;
+        clearInterval(timeT);
+        level=1;
+        showLevel.textContent = level;
+        showAttempts.textContent = attempts;
+        showSuccesses.textContent = successes;
+        showTime.textContent = time;
+        deleteImages();
+        gameActive = false;
+    }
 }
 
+//quitar imagenes
+function deleteImages(){
+    let allImages = d.querySelectorAll('.tablero div');
+    for(let i =0; i<allImages.length;i++){
+        allImages[i].remove();
+    }
+}
