@@ -3,8 +3,8 @@ const d = document;
 let dash = d.querySelector(".tablero");
 let nameImg = [];
 let posImg = [];
-let attempts = 0;
-let successes = 0;
+let attempts = 0; //intentos
+let successes = 0; //aciertos
 let time = 60;
 let timeT;
 let showSuccesses = d.querySelector(".aciertos");
@@ -14,9 +14,9 @@ let btnStart = d.querySelector('.boton-iniciar');
 let showLevel = d.querySelector('.nivel');
 let gameActive = false;
 let level = 1;
-let sound = new Audio("./sonidos/gameover.mp3");
+let sound = new Audio("./sonidos/gameover.mp3"); //sonido cuando el usuario falle
 
-
+//arrays de objetos con las imagenes
 let images = [
     {
         "nombre":"red dead redemption 2",
@@ -68,7 +68,7 @@ let images = [
     }
     
 ];
-//imagenes en diferente posicion
+//poner imagenes en diferente posicion
 images.sort(()=>Math.random() -0.5);
 
 
@@ -88,11 +88,11 @@ btnStart.addEventListener("click", function(){
         addImages();
         timeGame();
     }
-    showLevel.textContent = level;
+    //showLevel.textContent = level;
     
 });
 
-//iniciar juego setInterval
+//iniciar juego con ayuda de setInterval
 function timeGame(){
         timeT = setInterval(function(){
         time--;
@@ -108,8 +108,6 @@ function timeGame(){
     }, 1000)
 
 }
-
-
 
 let board = d.querySelector(".tablero");
 
@@ -138,7 +136,7 @@ function showImages(){
     //guardar el nombre y id de la imagen
     nameImg.push(images[imgId].nombre);
     posImg.push(imgId);
-    //alert(nameImg[0]+ " " + posImg[0]);
+    
     //ejecutar la funcion comparar imagenes
     if(nameImg.length === 2){
         setTimeout(compareImages, 500);
@@ -150,9 +148,8 @@ function showImages(){
 //comparar las imagenes 
 function compareImages(){
     let totalImg = d.querySelectorAll(".tablero .col-3 img");
-    //comparar si las imagenes son iguales
-    if(nameImg[0]=== nameImg[1]){ //las imagenes son iguales
-        if(posImg[0]!= posImg[1]){ //imagenes en diferente pos
+    if(nameImg[0]=== nameImg[1]){ //comparar si las imagenes son iguales
+        if(posImg[0]!= posImg[1]){ //comparar imagenes en diferente posicion
             totalImg[posImg[0]].setAttribute("src", "./img/acierto.jpg");
             totalImg[posImg[1]].setAttribute("src", "./img/acierto.jpg");
             totalImg[posImg[0]].removeEventListener("click", showImages);
@@ -178,14 +175,28 @@ function compareImages(){
     nameImg = []; //arrays vacios
     posImg = [];
 
-    //logica para pasar de nivel
 
+
+    //logica para pasar de nivel
     if(successes=== 6 && level === 1){
-        alert('🙌👍👌 Excellent you advance of level');
+        alert('🙌👍👌 Excellent you advanced of level');
         successes = 0;
         attempts = 0;
+        clearInterval(timeT);
+        time = 55;
+        level++;
+        showLevel.textContent = level;
+        showAttempts.textContent = attempts;
+        showSuccesses.textContent = successes;
+        showTime.textContent = time;
+        deleteImages();
+        gameActive = false;
+    }else if(successes === 6 && level===2){
+        alert('🙌👍👌 Excellent you advanced of level');
+        successes = 0;
+        attempts = 0;
+        clearInterval(timeT);
         time = 50;
-        clearInterval(timeT);
         level++;
         showLevel.textContent = level;
         showAttempts.textContent = attempts;
@@ -193,25 +204,12 @@ function compareImages(){
         showTime.textContent = time;
         deleteImages();
         gameActive = false;
-    }else if(attempts === 6 && level===2){
-        alert('🙌👍👌 Excellent you advance all levels');
+    }else if(successes===6 && level===3){
+        alert('🙌👍👌 Excellent you advanced all levels');
         successes = 0;
         attempts = 0;
-        time = 40;
         clearInterval(timeT);
-        level++;
-        showLevel.textContent = level;
-        showAttempts.textContent = attempts;
-        showSuccesses.textContent = successes;
-        showTime.textContent = time;
-        deleteImages();
-        gameActive = false;
-    }else if(attempts===6 && level===3){
-        alert('🙌👍👌 Excellent you advance all levels');
-        successes = 0;
-        attempts = 0;
         time = 45;
-        clearInterval(timeT);
         level=1;
         showLevel.textContent = level;
         showAttempts.textContent = attempts;
