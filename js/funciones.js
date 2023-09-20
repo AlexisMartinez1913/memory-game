@@ -14,7 +14,7 @@ let btnStart = d.querySelector('.boton-iniciar');
 let showLevel = d.querySelector('.nivel');
 let gameActive = false;
 let level = 1;
-let sound = new Audio("./sonidos/gameover.mp3"); //sonido cuando el usuario falle
+let sound = new Audio("./sonidos/game1.mp3"); //sonido
 
 //arrays de objetos con las imagenes
 let images = [
@@ -99,6 +99,7 @@ function timeGame(){
         timeT = setInterval(function(){
         time--;
         showTime.textContent = time;
+        sound.play()
         if(time === 10){
             showTime.setAttribute("style", "color:red; font-size:20px");
         }else if(time===0){
@@ -162,16 +163,16 @@ function compareImages(){
         }else{
             alert('Please choose another image');
             totalImg[posImg[0]].setAttribute("src", "./img/ocultar.png");
-            attempts++;
+            attempts = attempts +1;
             showAttempts.textContent = attempts;
-            sound.play();
+            //sound.play();
             
         }
         
     }else{
         totalImg[posImg[0]].setAttribute("src", "./img/ocultar.png");
         totalImg[posImg[1]].setAttribute("src", "./img/ocultar.png");
-        attempts++;
+        attempts = attempts +1;
         showAttempts.textContent = attempts;
     }
     nameImg = []; //arrays vacios
@@ -183,7 +184,7 @@ function compareImages(){
     if(successes=== 6 && level === 1){
         alert('🙌👍👌 Excellent you advanced of level');
         successes = 0;
-        attempts = 0;
+        attempts++;
         clearInterval(timeT);
         time = 55;
         level++;
@@ -196,7 +197,7 @@ function compareImages(){
     }else if(successes === 6 && level===2){
         alert('🙌👍👌 Excellent you advanced of level');
         successes = 0;
-        attempts = 0;
+        attempts++;
         clearInterval(timeT);
         time = 50;
         level++;
@@ -209,9 +210,9 @@ function compareImages(){
     }else if(successes===6 && level===3){
         alert('🙌👍👌 Excellent you advanced all levels');
         successes = 0;
-        attempts = 0;
+        attempts++;
         clearInterval(timeT);
-        time = 49;
+        time = 55;
         level = 1;
         showLevel.textContent = level;
         showAttempts.textContent = attempts;
@@ -223,7 +224,7 @@ function compareImages(){
         //registrar las estadisticas del jugador al terminar el juego - llamar funcion de la localstorage
         let playerName = prompt('Enter your name: ');
         if(playerName){
-            recordStatistics(playerName, 180 - time,attempts);
+            recordStatistics(playerName,time,attempts);
         }
     }
 }
@@ -312,12 +313,7 @@ function loadStatistics(){
         row.appendChild(cellTime);
         row.appendChild(cellAttempts);
 
-        tableStatistics.appendChild(row);
-
-
-        
+        tableStatistics.appendChild(row); 
     });
-
-
 }
 
