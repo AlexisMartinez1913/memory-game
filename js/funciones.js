@@ -71,7 +71,9 @@ let images = [
 //poner imagenes en diferente posicion
 images.sort(()=>Math.random() -0.5);
 
-
+d.addEventListener("DOMContentLoaded", function () {
+    loadStatistics();
+});
 
 showTime.textContent = time;
 btnStart.addEventListener("click", function(){
@@ -209,7 +211,7 @@ function compareImages(){
         successes = 0;
         attempts = 0;
         clearInterval(timeT);
-        time = 45;
+        time = 49;
         level = 1;
         showLevel.textContent = level;
         showAttempts.textContent = attempts;
@@ -218,13 +220,14 @@ function compareImages(){
         deleteImages();
         gameActive = false;
 
-        //registrar las estadisticas del jugador al terminar el juego
+        //registrar las estadisticas del jugador al terminar el juego - llamar funcion de la localstorage
         let playerName = prompt('Enter your name: ');
         if(playerName){
             recordStatistics(playerName, 180 - time,attempts);
         }
     }
 }
+
 loadStatistics();
 
 //quitar imagenes
@@ -234,6 +237,9 @@ function deleteImages(){
         allImages[i].remove();
     }
 }
+
+
+
 
 // registrar estadisticas jugador
 
@@ -251,7 +257,7 @@ function recordStatistics(playerName, gameTime, totalAttempts){
 
     cellPos.textContent = tableStatistics.children.length +1;
     cellPlayer.textContent = playerName;
-    cellTime.textContent = gameTime + 'seconds';
+    cellTime.textContent = gameTime + ' seconds';
     cellAttempts.textContent = totalAttempts;
 
     //agregar celdas a la fila
@@ -288,7 +294,7 @@ function loadStatistics(){
     // Limpiar la tabla
     tableStatistics.innerHTML = '';
 
-    // Recorrer los datos guardados y agregarlos a la tabla
+    // Recorrer los datos y agregarlos a la tabla
     savedStatistics.forEach((play, index) => {
         const row = document.createElement('tr');
         const cellPos = document.createElement('td');
@@ -296,9 +302,9 @@ function loadStatistics(){
         const cellTime = document.createElement('td');
         const cellAttempts = document.createElement('td');
 
-        cellPos.textContent = index +1;
+        cellPos.textContent = index + 1;
         cellPlayer.textContent = play.name;
-        cellTime.textContent = play.time + 'seconds';
+        cellTime.textContent = play.time + ' seconds';
         cellAttempts.textContent = play.attempts;
 
         row.appendChild(cellPos);
@@ -314,3 +320,4 @@ function loadStatistics(){
 
 
 }
+
