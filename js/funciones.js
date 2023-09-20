@@ -210,15 +210,22 @@ function compareImages(){
         attempts = 0;
         clearInterval(timeT);
         time = 45;
-        level=1;
+        level = 1;
         showLevel.textContent = level;
         showAttempts.textContent = attempts;
         showSuccesses.textContent = successes;
         showTime.textContent = time;
         deleteImages();
         gameActive = false;
+
+        //registrar las estadisticas del jugador al terminar el juego
+        let playerName = prompt('Enter your name: ');
+        if(playerName){
+            recordStatistics(playerName, 180 - time,attempts);
+        }
     }
 }
+loadStatistics();
 
 //quitar imagenes
 function deleteImages(){
@@ -226,4 +233,84 @@ function deleteImages(){
     for(let i =0; i<allImages.length;i++){
         allImages[i].remove();
     }
+}
+
+// registrar estadisticas jugador
+
+function recordStatistics(playerName, gameTime, totalAttempts){
+    let tableStatistics = document.querySelector('.estatisticas tbody');
+
+    //nuevo fila en la tabla
+    let row = document.createElement('tr');
+
+    //crear celdas para los datos
+    let cellPos = document.createElement('td');
+    let cellPlayer = document.createElement('td');
+    let cellTime = document.createElement('td');
+    let cellAttempts = document.createElement('td');
+
+    cellPos.textContent = tableStatistics.children.length +1;
+    cellPlayer.textContent = playerName;
+    cellTime.textContent = gameTime + 'seconds';
+    cellAttempts.textContent = totalAttempts;
+
+    //agregar celdas a la fila
+    row.appendChild(cellPos);
+    row.appendChild(cellPlayer);
+    row.appendChild(cellTime);
+    row.appendChild(cellAttempts);
+
+    //agregar fila a la tabla
+    tableStatistics.appendChild(row);
+
+    // Guardar los datos en el localStorage
+    const player = {
+        name: playerName,
+        time: gameTime,
+        attempts: totalAttempts
+    };
+
+    let savedStatistics = JSON.parse(localStorage.getItem('estadisticas')) || [];
+    savedStatistics.push(player);
+
+    localStorage.setItem('estadisticas', JSON.stringify(savedStatistics));
+
+}
+
+// Función para cargar estadísticas desde el localStorage
+
+function loadStatistics(){
+    const savedStatistics = JSON.parse(localStorage.getItem('estadisticas')) || [];
+
+    // Obtener la tabla de estadísticas
+    const tableStatistics = document.querySelector('.estatisticas tbody');
+
+    // Limpiar la tabla
+    tableStatistics.innerHTML = '';
+
+    // Recorrer los datos guardados y agregarlos a la tabla
+    savedStatistics.forEach((play, index) => {
+        const row = document.createElement('tr');
+        const cellPos = document.createElement('td');
+        const cellPlayer = document.createElement('td');
+        const cellTime = document.createElement('td');
+        const cellAttempts = document.createElement('td');
+
+        cellPos.textContent = index +1;
+        cellPlayer.textContent = play.name;
+        cellTime.textContent = play.time + 'seconds';
+        cellAttempts.textContent = play.attempts;
+
+        row.appendChild(cellPos);
+        row.appendChild(cellPlayer);
+        row.appendChild(cellTime);
+        row.appendChild(cellAttempts);
+
+        tableStatistics.appendChild(row);
+
+
+        
+    });
+
+
 }
